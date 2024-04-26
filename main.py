@@ -22,7 +22,7 @@ def main():
     def calculate_and_display_average_price(data):
        average_price = stock_data['Close'].mean()
        print(f"Средняя цена закрытия акций за заданный период: {average_price}")
-        
+
     def notify_if_strong_fluctuations(data, threshold):
         price_max = data['Close'].max()
         price_min = data['Close'].min()
@@ -34,9 +34,16 @@ def main():
         else:
             print("Цена акций не колебалась на заданный процент за заданный период.")
 
+    def export_data_to_csv(data, filename):
+        try:
+            data.to_csv(filename, index=False)
+            print(f"Данные успешно экспортированы в файл: {filename}")
+        except Exception as e:
+            print(f"Произошла ошибка при экспорте данных в CSV: {e}")
 
 if __name__ == "__main__":
     main()
+
 
 
 
