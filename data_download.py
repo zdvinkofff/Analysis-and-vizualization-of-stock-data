@@ -1,5 +1,6 @@
 import yfinance as yf
 import pandas as pd
+import numpy as np
 
 
 def fetch_stock_data(ticker, period='1mo'):
@@ -36,3 +37,19 @@ def notify_if_strong_fluctuations(data: pd.DataFrame, threshold: float):
         print(f"Цена акций колебалась более чем на {threshold}% за заданный период.")
     else:
         print("Цена акций не колебалась на заданный процент за заданный период.")
+
+def calculate_rsi(data, period=14):
+    delta = data['Close'].diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    rs = gain / loss
+    rsi = 100 - (100 / (1 + rs))
+    data['RSI'] = rsi
+    return data
+
+def calculate_macd(data, short_period=12, long_period=26, signal_period=9):
+    data['Short_MA'] = data['Close'].ewm(span=short_period, adjust=False).mean()
+    data['Long_MA'] = data['Close'].ewm(span=long_period, adjust=False).mean()
+    data['MACD'] = data['Short_MA'] - data['Long_MA']
+    data['Signal_Line'] = data['MACD'].ewm(span=signal_period, adjust=False).mean()
+    return data
