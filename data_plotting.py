@@ -29,3 +29,27 @@ def create_and_save_plot(data, ticker, period, filename=None):
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+
+def plot_rsi(data, ticker, period):
+    plt.figure(figsize=(10, 6))
+    plt.plot(data.index, data['RSI'], label='RSI', color='purple')
+    plt.axhline(y=70, color='r', linestyle='--', label='Overbought (70)')
+    plt.axhline(y=30, color='g', linestyle='--', label='Oversold (30)')
+    plt.title(f"RSI для {ticker} за период: {period}")
+    plt.xlabel("Date")
+    plt.ylabel("RSI Value")
+    plt.legend()
+    plt.savefig(f"{ticker}_{period}_rsi_chart.png")
+    print("График RSI сохранен")
+
+def plot_macd(data, ticker, period):
+    plt.figure(figsize=(12, 8))
+    plt.plot(data.index, data['MACD'], label='MACD', color='blue')
+    plt.plot(data.index, data['Signal_Line'], label='Signal Line', color='red')
+    plt.title(f"MACD для {ticker} за период: {period}")
+    plt.xlabel("Date")
+    plt.ylabel("MACD Value")
+    plt.legend()
+    plt.savefig(f"{ticker}_{period}_macd_chart.png")
+    print("График MACD сохранен")
+
