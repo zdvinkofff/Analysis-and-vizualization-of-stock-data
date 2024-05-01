@@ -25,6 +25,14 @@ def main():
     dd.notify_if_strong_fluctuations(stock_data, 5)
     dd.export_data_to_csv(stock_data, "stock_data.csv")
 
+    # Расчет и визуализация RSI
+    stock_data = dd.calculate_rsi(stock_data)
+    dplt.plot_rsi(stock_data, ticker, period)
+
+    # Расчет и визуализация MACD
+    stock_data = dd.calculate_macd(stock_data)
+    dplt.plot_macd(stock_data, ticker, period)
+
 
 if __name__ == "__main__":
     main()
