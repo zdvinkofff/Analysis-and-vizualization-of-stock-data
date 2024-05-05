@@ -13,6 +13,7 @@ def main():
     period = input("Введите период для данных (например, '1mo' для одного месяца): ")
     start_date = input("Введите дату начала анализа (формат ГГГГ-ММ-ДД): ")
     end_date = input("Введите дату окончания анализа (формат ГГГГ-ММ-ДД): ")
+    style = input("Введите стиль графика (например: 'ggplot', 'fivethirtyeight', 'tableau-colorblind10'): ")
 
     # Получение данных о биржевых ценных бумагах
     stock_data = dd.fetch_stock_data(ticker, start_date, end_date)
@@ -21,7 +22,7 @@ def main():
     stock_data = dd.add_moving_average(stock_data)
 
     # Построение графика
-    dplt.create_and_save_plot(stock_data, ticker, period)
+    dplt.create_and_save_plot(stock_data, ticker, period, style=style)
 
     dd.calculate_and_display_average_price(stock_data)
     dd.notify_if_strong_fluctuations(stock_data, 5)
