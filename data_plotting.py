@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def create_and_save_plot(data, ticker, period, filename=None):
+def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
+    plt.style.use(style)
+
     plt.figure(figsize=(10, 6))
 
     if 'Date' not in data:
@@ -29,6 +31,7 @@ def create_and_save_plot(data, ticker, period, filename=None):
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+
 
 def plot_rsi(data, ticker, period):
     plt.figure(figsize=(10, 6))
