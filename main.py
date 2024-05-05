@@ -11,9 +11,11 @@ def main():
 
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc): ")
     period = input("Введите период для данных (например, '1mo' для одного месяца): ")
+    start_date = input("Введите дату начала анализа (формат ГГГГ-ММ-ДД): ")
+    end_date = input("Введите дату окончания анализа (формат ГГГГ-ММ-ДД): ")
 
     # Получение данных о биржевых ценных бумагах
-    stock_data = dd.fetch_stock_data(ticker, period)
+    stock_data = dd.fetch_stock_data(ticker, start_date, end_date)
 
     # Добавление скользящей средней к данным
     stock_data = dd.add_moving_average(stock_data)
