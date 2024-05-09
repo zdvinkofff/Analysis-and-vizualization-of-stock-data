@@ -1,17 +1,16 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
-def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
-    plt.style.use(style)
-
+def create_and_save_plot(data, ticker, period, filename=None, plot_style='default'):
     plt.figure(figsize=(10, 6))
+    plt.style.use(plot_style)
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):
             dates = data.index.to_numpy()
             plt.plot(dates, data['Close'].values, label='Close Price')
             plt.plot(dates, data['Moving_Average'].values, label='Moving Average')
+            plt.plot(dates, data['Close_StdDev'].values, label='Close Price Standard Deviation')
         else:
             print("Информация о дате отсутствует или не имеет распознаваемого формата.")
             return
@@ -20,6 +19,7 @@ def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
             data['Date'] = pd.to_datetime(data['Date'])
         plt.plot(data['Date'], data['Close'], label='Close Price')
         plt.plot(data['Date'], data['Moving_Average'], label='Moving Average')
+        plt.plot(data['Date'], data['Close_StdDev'], label='Close Price Standard Deviation')
 
     plt.title(f"{ticker} Цена акций с течением времени")
     plt.xlabel("Дата")
@@ -31,7 +31,6 @@ def create_and_save_plot(data, ticker, period, filename=None, style='seaborn'):
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
-
 
 def plot_rsi(data, ticker, period):
     plt.figure(figsize=(10, 6))
