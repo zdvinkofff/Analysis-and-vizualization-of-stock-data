@@ -3,18 +3,21 @@ import pandas as pd
 import numpy as np
 
 
-def fetch_stock_data(ticker, start_date, end_date):
+def fetch_stock_data(ticker, period='1mo', start_date=None, end_date=None):
     stock = yf.Ticker(ticker)
-    data = stock.history(start=start_date, end=end_date)
+    if start_date and end_date:
+        data = stock.history(start=start_date, end=end_date)  # Использование дат начала и окончания для получения данных за конкретный период
+    else:
+        data = stock.history(period=period)
     return data
-
-
-
 
 def add_moving_average(data, window_size=5):
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
     return data
 
+def calculate_standard_deviation(data):
+    data['Close_StdDev'] = data['Close'].rolling(window=30).std()
+    return data
 
 def export_data_to_csv(data, filename):
     try:
@@ -23,11 +26,9 @@ def export_data_to_csv(data, filename):
     except Exception as e:
         print(f"Произошла ошибка при экспорте данных в CSV: {e}")
 
-
 def calculate_and_display_average_price(data: pd.DataFrame):
     average_price = data['Close'].mean()
     print(f"Средняя цена закрытия акций за заданный период: {average_price}")
-
 
 def notify_if_strong_fluctuations(data: pd.DataFrame, threshold: float):
     price_max = data['Close'].max()
