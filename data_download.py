@@ -56,3 +56,4 @@ def calculate_macd(data, short_period=12, long_period=26, signal_period=9):
     data['MACD'] = data['Short_MA'] - data['Long_MA']
     data['Signal_Line'] = data['MACD'].ewm(span=signal_period, adjust=False).mean()
     return data
+
