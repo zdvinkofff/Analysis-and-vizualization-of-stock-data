@@ -1,6 +1,6 @@
 import data_download as dd
-import data_plotting as dplt
 import matplotlib.pyplot as plt
+import data_plotting as dplt
 
 def main():
     print("Добро пожаловать в инструмент получения и построения графиков биржевых данных.")
@@ -22,6 +22,18 @@ def main():
 
     # Расчет стандартного отклонения
     stock_data = dd.calculate_standard_deviation(stock_data)
+
+    print("Доступные типы графиков:")
+    for idx, plot_type in enumerate(dplt.available_plots.keys(), 1):
+        print(f"{idx}. {plot_type}")
+
+    plot_choice = int(input("Выберите тип графика для построения (введите номер): "))
+    plot_type = list(dplt.available_plots.keys())[plot_choice - 1]
+
+    print(f"Вы выбрали построение графика: {plot_type}")
+
+    plot_function = dplt.available_plots[plot_type]
+    plot_function(stock_data)
 
     # Построение графика
     available_styles = plt.style.available
